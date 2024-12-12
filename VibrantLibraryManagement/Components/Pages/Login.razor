@@ -1,0 +1,155 @@
+﻿@page "/login"
+@rendermode InteractiveServer
+@inject ILoginService LoginService;
+<PageTitle>Login</PageTitle>
+
+<div class="w-100">
+    <div class="row">
+        <div class="col-12 col-md-4 left-column">
+            <div class="container custom-container">
+                <div class="col-12">
+                    <img src="/images/vibrantlogobdremove.png" />
+                </div>
+                <div class="col-12">
+                    <h3 style="margin-left:15px">Login</h3>
+                </div>
+                <SfDataForm ID="LoginForm" Model="loginEntity">
+                    <FormValidator>
+                        <DataAnnotationsValidator></DataAnnotationsValidator>
+                    </FormValidator>
+                    <FormItems>
+                        <FormItem Field="@nameof(loginEntity.Email)">
+                            <Template>
+                                <div class="email">
+                                    <SfTextBox CssClass="custom-textbox" @ref="TextBoxEmailObj" Type="InputType.Email" Placeholder="Email address" Created="@AddIcons"></SfTextBox>
+                                </div>
+                            </Template>
+                        </FormItem>
+                        <FormItem Field="@nameof(loginEntity.Password)">
+                            <Template>
+                                <div class="password">
+                                    <SfTextBox CssClass="custom-textbox" @ref="TextBoxPasswordObj" Type="InputType.Password" Placeholder="Password" Created="@AddIconsForPasswrd"></SfTextBox>
+                                </div>
+                            </Template>
+                        </FormItem>
+                        <FormButtons>
+                            <SfButton CssClass="custom-button e-primary" class="w-100" OnClick="Submit">Login</SfButton>
+                        </FormButtons>
+                    </FormItems>
+                </SfDataForm>
+                <div class="col-12 mt-2">
+                    <p class="custom-p">Forget Password?</p>
+                </div>
+                <div class="col-12 mt-2">
+                    <div class="d-flex g-3"> <span class="text-muted">Don't have an account?</span> <p class="custom-p ms-1">Create account</p></div>
+                </div>
+                 <div class="col-12 mt-2">
+                    <Divider/>
+                </div>
+                
+            </div>
+
+
+        </div>
+        <div class="col-0 col-md-8">
+            <img src="/images/bookstree.png" class="tree-img" />
+        </div>
+    </div>
+
+</div>
+
+@code {
+    public string ResponseMessage { get; set; } = string.Empty;
+    SfTextBox TextBoxEmailObj;
+    SfTextBox TextBoxPasswordObj;
+    private LoginEntity loginEntity = new();
+
+    private async Task Submit()
+    {
+        try
+        {
+            var result = await LoginService.Login(loginEntity);
+
+            ResponseMessage = "result";
+        }
+        catch (Exception ex)
+        {
+            ResponseMessage = $"An error occurred: {ex.Message}";
+        }
+    }
+
+    public async Task AddIcons()
+    {
+        await this.TextBoxEmailObj.AddIconAsync("prepend", "e-icons");
+    }
+    public async Task AddIconsForPasswrd()
+    {
+        await this.TextBoxPasswordObj.AddIconAsync("prepend", "e-icons");
+    }
+}
+
+<style>
+    .tree-img {
+        height: 100vh;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .email .e-input-group.e-control-wrapper .e-input-group-icon {
+        content: url('/images/mail.png') !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        width: 16px !important;
+        height: 16px !important;
+        display: inline-block !important;
+    }
+
+    .password .e-input-group.e-control-wrapper .e-input-group-icon {
+        content: url('/images/padlock.png') !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        width: 16px !important;
+        height: 16px !important;
+        display: inline-block !important;
+    }
+
+    .custom-container {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .left-column {
+        box-shadow: 10px 0 10px -5px #adadad;
+    }
+
+    .custom-textbox {
+        padding: 10px;
+        border: 1px solid gray !important;
+        border-radius: 10px !important;
+    }
+
+    .email .e-input-group.e-control-wrapper:not(.e-disabled) .e-input-group-icon:hover {
+        color: transparent !important;
+        background: none !important;
+    }
+
+    .password .e-input-group.e-control-wrapper:not(.e-disabled) .e-input-group-icon:hover {
+        color: transparent !important;
+        background: none !important;
+    }
+
+    .custom-button {
+        background-color: #30cc7d !important;
+        color: black !important;
+        padding: 10px;
+        border-radius: 10px
+    }
+
+    .custom-p {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
