@@ -10,6 +10,7 @@ namespace VibrantLibraryManagement.Core.Models
     public class LoginEntity
     {
         [Required]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }

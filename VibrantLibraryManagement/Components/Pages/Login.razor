@@ -13,7 +13,7 @@
                 <div class="col-12">
                     <h3 style="margin-left:15px">Login</h3>
                 </div>
-                <SfDataForm ID="LoginForm" Model="loginEntity">
+                <SfDataForm ID="LoginForm" Model="loginEntity" OnSubmit="Submit">
                     <FormValidator>
                         <DataAnnotationsValidator></DataAnnotationsValidator>
                     </FormValidator>
@@ -46,6 +46,12 @@
                  <div class="col-12 mt-2">
                     <Divider/>
                 </div>
+                <div class="col-12 mt-2">
+                    <SfButton CssClass="custom-google-button w-100" IsPrimary="true" IconCss="e-open-icon" IconPosition="@IconPosition.Left">Continue with Google</SfButton>
+                </div>
+                <div class="col-12 mt-3">
+                    <SfButton CssClass="custom-google-button w-100" IsPrimary="true" IconCss="e-open-icon-apple" IconPosition="@IconPosition.Left">Continue with Apple ID</SfButton>
+                </div>
                 
             </div>
 
@@ -62,7 +68,7 @@
     public string ResponseMessage { get; set; } = string.Empty;
     SfTextBox TextBoxEmailObj;
     SfTextBox TextBoxPasswordObj;
-    private LoginEntity loginEntity = new();
+    private LoginEntity loginEntity =new();
 
     private async Task Submit()
     {
@@ -97,6 +103,24 @@
 
     .email .e-input-group.e-control-wrapper .e-input-group-icon {
         content: url('/images/mail.png') !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        width: 16px !important;
+        height: 16px !important;
+        display: inline-block !important;
+    }
+
+    .e-open-icon::after {
+        content: url('/images/google.png') !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        width: 16px !important;
+        height: 16px !important;
+        display: inline-block !important;
+    }
+
+    .e-open-icon-apple::after {
+        content: url('/images/apple-logo.png') !important;
         background-size: contain !important;
         background-repeat: no-repeat !important;
         width: 16px !important;
@@ -151,5 +175,12 @@
     .custom-p {
         text-decoration: underline;
         cursor: pointer;
+    }
+
+    .custom-google-button{
+        background-color:white !important;
+        color: black !important;
+        padding: 10px;
+        border-radius: 10px
     }
 </style>
