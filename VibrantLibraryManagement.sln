@@ -5,9 +5,9 @@ VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VibrantLibraryManagement", "VibrantLibraryManagement\VibrantLibraryManagement.csproj", "{6069735C-7201-436D-BB33-F24D8422692F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VibrantLibraryManagement.ServiceLayer", "VibrantLibraryManagement.ServiceLayer\VibrantLibraryManagement.ServiceLayer.csproj", "{20F95E71-9A61-4674-A964-A654A081289C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VibrantLibraryManagement.ServiceLayer", "VibrantLibraryManagement.ServiceLayer\VibrantLibraryManagement.ServiceLayer.csproj", "{20F95E71-9A61-4674-A964-A654A081289C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VibrantLibraryManagement.Core", "VibrantLibraryManagement.Core\VibrantLibraryManagement.Core.csproj", "{45B00EF3-FD6D-41B1-8665-56F0C68269BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VibrantLibraryManagement.Core", "VibrantLibraryManagement.Core\VibrantLibraryManagement.Core.csproj", "{45B00EF3-FD6D-41B1-8665-56F0C68269BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

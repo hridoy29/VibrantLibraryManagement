@@ -1,19 +1,26 @@
 ﻿@page "/login"
 @rendermode InteractiveServer
 @inject ILoginService LoginService;
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IAuthenticationService AuthenticationService
+@inject ILogger<Login> Logger
+@inject IHttpContextAccessor HttpContextAccessor
+
 <PageTitle>Login</PageTitle>
 
 <div class="w-100">
-    <div class="row">
+    <div class="row p-0">
         <div class="col-12 col-md-4 left-column">
             <div class="container custom-container">
                 <div class="col-12">
-                    <img src="/images/vibrantlogobdremove.png" />
+                    <img src="/images/vibrantlogobgremove.png" />
                 </div>
                 <div class="col-12">
-                    <h3 style="margin-left:15px">Login</h3>
+                    <h4 style="margin:17px 0px 0px 0px; font-family: roboto;">Log in</h4>
                 </div>
-                <SfDataForm ID="LoginForm" Model="loginEntity" OnValidSubmit="Submit">
+                <SfDataForm ID="LoginForm"
+                            Model="loginEntity" OnValidSubmit="Submit">
                     <FormValidator>
                         <DataAnnotationsValidator></DataAnnotationsValidator>
                     </FormValidator>
@@ -21,54 +28,92 @@
                         <FormItem Field="@nameof(loginEntity.Email)">
                             <Template>
                                 <div class="email">
-                                    <SfTextBox CssClass="custom-textbox" @ref="TextBoxEmailObj" Type="InputType.Email" Placeholder="Email address" Created="@AddIcons"></SfTextBox>
+                                    <SfTextBox CssClass="email-field custom-textbox" @ref="TextBoxEmailObj" Type="InputType.Email" Placeholder="Email address" Created="@AddIcons" @oninput="OnEmailChanged"></SfTextBox>
                                 </div>
                             </Template>
                         </FormItem>
                         <FormItem Field="@nameof(loginEntity.Password)">
                             <Template>
                                 <div class="password">
-                                    <SfTextBox CssClass="custom-textbox" @ref="TextBoxPasswordObj" Type="InputType.Password" Placeholder="Password" Created="@AddIconsForPasswrd"></SfTextBox>
+                                    <SfTextBox CssClass="custom-textbox PasswordIconClass" @ref="TextBoxPasswordObj" Type="InputType.Password" Placeholder="Password" Created="@AddIconsForPasswrd" @oninput="OnPasswordChanged"></SfTextBox>
+                                    <button @onclick="TogglePasswordVisibility" class="password-toggle-button">
+                                        <SfIcon Name="IconName.Eye"></SfIcon>
+                                    </button>
                                 </div>
                             </Template>
                         </FormItem>
                         <FormButtons>
-                            <SfButton CssClass="custom-button e-primary" class="w-100" >Login</SfButton>
+                            <div style="display: flex; flex-direction: column; width: 100%; gap: 20px;">
+                                <div class="remember-me">
+                                    <SfCheckBox Label="Remember me" @bind-Checked="isChecked"></SfCheckBox>
+                                </div>
+                                <SfButton CssClass="custom-button e-primary login-button"
+                                          style="border-radius: 10px;
+                                    margin-bottom: 10px; background: gray;"
+                                          class="w-100"
+                                          Disabled=@isButtonDisabled>Log in</SfButton>
+                            </div>
                         </FormButtons>
                     </FormItems>
                 </SfDataForm>
                 <div class="col-12 mt-2">
-                    <p class="custom-p">Forget Password?</p>
+                    <p class="custom-p" style="font-size: 13px;">Forget Password?</p>
                 </div>
                 <div class="col-12 mt-2">
-                    <div class="d-flex g-3"> <span class="text-muted">Don't have an account?</span> <p class="custom-p ms-1">Create account</p></div>
-                </div>
-                 <div class="col-12 mt-2">
-                    <Divider/>
+                    <div class="d-flex g-3" style="font-size: 13px;"> <span class="text-muted">Don't have an account?</span> <p class="custom-p ms-1">Create account</p></div>
                 </div>
                 <div class="col-12 mt-2">
-                    <SfButton CssClass="custom-google-button w-100" IsPrimary="true" IconCss="e-open-icon" IconPosition="@IconPosition.Left">Continue with Google</SfButton>
+                    <Divider />
+                </div>
+                <div class="col-12 mt-2">
+                    <SfButton CssClass="custom-google-button w-100" IsPrimary="true" IconCss="e-open-icon" IconPosition="@IconPosition.Left" @onclick="GoogleLogin">Continue with Google</SfButton>
                 </div>
                 <div class="col-12 mt-3">
                     <SfButton CssClass="custom-google-button w-100" IsPrimary="true" IconCss="e-open-icon-apple" IconPosition="@IconPosition.Left">Continue with Apple ID</SfButton>
                 </div>
-                
+                <div class="privacy-policy">
+                    <p style="margin-bottom: 0px;"><span style="text-decoration: underline;">Privacy</span> and <span style="text-decoration: underline;">tearms of service</span></p>
+                    <div style="width: 100px;">
+                        <SfDropDownList TValue="string" TItem="Language" PopupHeight="350px" PopupWidth="350px" Placeholder="En-us" DataSource="@LocalData">
+                            <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+                </div>
+
             </div>
 
 
         </div>
-        <div class="col-0 col-md-8">
-            <img src="/images/bookstree.png" class="tree-img" />
+        <div class="col-0 col-md-8 m-0 p-0">
+            <img src="/images/bookstreehq.jpg" class="tree-img" />
         </div>
     </div>
 
 </div>
 
 @code {
-    public string ResponseMessage { get; set; } = string.Empty;
     SfTextBox TextBoxEmailObj;
     SfTextBox TextBoxPasswordObj;
-    private LoginEntity loginEntity =new();
+
+    public string ResponseMessage { get; set; } = string.Empty;
+    private LoginEntity loginEntity = new();
+
+    private bool isChecked = false;
+    public bool isButtonDisabled { get; set; } = true;
+
+    private void OnEmailChanged()
+    {
+        string email = TextBoxEmailObj.Value;
+        isButtonDisabled = false;
+        StateHasChanged();
+    }
+
+
+    private void OnPasswordChanged()
+    {
+        isButtonDisabled = false;
+        StateHasChanged();
+    }
 
     private async Task Submit()
     {
@@ -88,10 +133,59 @@
     {
         await this.TextBoxEmailObj.AddIconAsync("prepend", "e-icons");
     }
+
     public async Task AddIconsForPasswrd()
     {
         await this.TextBoxPasswordObj.AddIconAsync("prepend", "e-icons");
     }
+
+    // Trigger Google Authentication
+    private async Task GoogleLogin()
+    {
+
+        Navigation.NavigateTo("auth/login-google", forceLoad: true);
+        try
+        {
+            // Challenge authentication before response is processed
+            var authenticationProperties = new AuthenticationProperties { RedirectUri = "/" };
+            // Use this method in the right time in the pipeline:
+            await HttpContextAccessor.HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, authenticationProperties);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("Error during Google login: {Message}", ex.Message);
+        }
+    }
+
+    // Language Dropdown
+    public class Language
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+
+    List<Language> LocalData = new List<Language> {
+        new Language() { ID= "en", Text= "American English" },
+        new Language() { ID= "bn", Text= "Bangali" }
+    };
+
+    // Adding Eye Icon
+    private string PasswordIconClass { get; set; } = "e-icons e-password-show";
+
+    private void TogglePasswordVisibility()
+    {
+        if (TextBoxPasswordObj.Type == InputType.Password)
+        {
+            TextBoxPasswordObj.Type = InputType.Text;
+            PasswordIconClass = "e-icons e-password-hide";
+        }
+        else
+        {
+            TextBoxPasswordObj.Type = InputType.Password;
+            PasswordIconClass = "e-icons e-password-show";
+        }
+    }
+
 }
 
 <style>
@@ -108,6 +202,7 @@
         width: 16px !important;
         height: 16px !important;
         display: inline-block !important;
+        margin-right: 15px;
     }
 
     .e-open-icon::after {
@@ -135,24 +230,35 @@
         width: 16px !important;
         height: 16px !important;
         display: inline-block !important;
+        margin-right: 15px;
     }
 
     .custom-container {
-        justify-content: center;
-        align-items: center;
         display: flex;
+        align-items: center;
+        /* justify-content: center; */
         flex-direction: column;
         height: 100%;
+        padding: 20px 50px 0px 50px;
     }
 
     .left-column {
-        box-shadow: 10px 0 10px -5px #adadad;
+        box-shadow: 5px 0 15px -5px #adadad;
     }
 
     .custom-textbox {
         padding: 10px;
         border: 1px solid gray !important;
         border-radius: 10px !important;
+    }
+
+    .custom-textbox:focus {
+        border-bottom: none !important; /* Remove underline */
+    }
+
+    .e-control:focus {
+        border-color: #007bff; /* Change border color */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add box shadow */
     }
 
     .email .e-input-group.e-control-wrapper:not(.e-disabled) .e-input-group-icon:hover {
@@ -166,7 +272,7 @@
     }
 
     .custom-button {
-        background-color: #30cc7d !important;
+        background-color: @(isButtonDisabled ? "gray" : "#30cc7d") !important;
         color: black !important;
         padding: 10px;
         border-radius: 10px
@@ -175,12 +281,68 @@
     .custom-p {
         text-decoration: underline;
         cursor: pointer;
+        margin: 0px;
     }
 
-    .custom-google-button{
-        background-color:white !important;
+    .custom-google-button {
+        background-color: white !important;
         color: black !important;
         padding: 10px;
         border-radius: 10px
     }
+
+    .remember-me {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+        .remember-me p {
+            margin-bottom: 0px;
+        }
+
+    .login-button {
+        width: 400px;
+    }
+
+    .privacy-policy {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 20px 0px;
+        font-size: 12px;
+        align-items: center;
+    }
+
+    /* dropdown styles */
+    .e-ddl.e-input-group input.e-input::placeholder {
+        color: black;
+    }
+
+    /* Add eye icon to password field */
+    .password {
+        position: relative;
+    }
+
+    .password-toggle-button {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .password-toggle-button i {
+        font-size: 20px;
+    }
+
+    .e-input-focus{
+        border-bottom: none;
+        color: red;
+
+    }
+
 </style>
