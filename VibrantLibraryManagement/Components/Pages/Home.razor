@@ -1,7 +1,41 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+@using Component
+@using Syncfusion.Blazor.Navigations
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="main-container">
+    <header class="header">
+        <Navbar />
+        <Search></Search>
+    </header>
 
-Welcome to your new app.
+    <Carousel />
+
+    <InterestAlert />
+</div>
+
+<style>
+    .header {
+        margin: 0px auto;
+        width: 100%;
+        padding: 0px 70px;
+    }
+
+    .logo {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        background: rgb(245, 249, 250);
+    }
+
+    .carousel2 {
+        width: 95%;
+        margin: 0px auto;
+    }
+</style>

@@ -1,0 +1,119 @@
+﻿<div class="control-container">
+    <div class="carousel-main-content">
+        <SfCarousel ButtonsVisibility="CarouselButtonVisibility.Hidden" ShowIndicators="false">
+            <CarouselItem>
+                <h4 class="recomendation-text">Vibrant Recommended</h4>
+                <div class="cart">
+                    <img src=".././images/harry-potter-book-cover.jpg" class="slider-image" />
+                    <div class="details-container">
+                        <h4>Harry Potter</h4>
+                        <p style="margin: 0px; padding: 0px;">and philosophers stone</p>
+                        <h6>by J.K Rowling</h6>
+                        <h6>Summery</h6>
+                        <p>An 11-year-old orphan living with his unwelcoming aunt, uncle, and cousin, who learns of his own fame as a wizard known to have survived his parents' murder at the hands of the dark wizard Lord Voldemort as an infant when he is accepted to Hogwarts School of Witchcraft and Wizardry.</p>
+                        <h6>Ratings</h6>
+                        <span style="display: flex; flex-direction: row; align-items: center;">
+                            <img src=".././icons/star.png" class="star" />
+                            <img src=".././icons/star.png" class="star" />
+                            <img src=".././icons/star.png" class="star" />
+                            <img src=".././icons/star.png" class="star" />
+                            <img src=".././icons/star.png" class="star" />
+                             &nbsp; 5/5 &nbsp; |4k Ratings|
+                        </span> <br/>
+                        <div>
+                            <img src=".././icons/share.png" class="icon" />&nbsp;Share &nbsp; <img src=".././icons/heart.png" class="icon" /> &nbsp; Intersted
+                        </div>
+                    </div>
+                </div>
+            </CarouselItem>
+            @* <CarouselItem>
+                <h4 class="recomendation-text">Vibrant Recommended</h4>
+                <div class="cart">
+                    <img src=".././images/lord-of-the-rings-book-cover.jpg" class="slider-image" />
+                    <div class="details-container">
+                        <h4>The Lord of the Rings</h4>
+                        <p>The Fellowship of the Ring</p>
+                        <h6>by J.R.R. Tolkien</h6>
+                        <h6>Summary</h6>
+                        <p>Frodo Baggins, a hobbit, is entrusted with the responsibility of destroying the One Ring, which holds the power to control the world. With the help of his loyal companions, he embarks on an epic journey to Mordor, where the ring must be destroyed to prevent the dark lord Sauron from taking over Middle-earth.</p>
+                        <h6>Ratings</h6>
+                        <span style="display: flex; flex-direction: row; align-items: center;">
+                            <img src=".././icons/star.png" class="star" />
+                            <img src=".././icons/star.png" class="star" />
+                            <img src=".././icons/star.png" class="star" />
+                            <img src=".././icons/star.png" class="star" />
+                            <img src=".././icons/star.png" class="star" />
+                            &nbsp; 5/5 &nbsp; |5k Ratings|
+                        </span> <br />
+                        <div>
+                            <img src=".././icons/share.png" class="icon" />&nbsp;Share &nbsp; <img src=".././icons/heart.png" class="icon" /> &nbsp; Interested
+                        </div>
+                    </div>
+                </div>
+            </CarouselItem> *@
+        </SfCarousel>
+    </div>
+</div>
+
+<style>
+    .control-container {
+        position: relative;
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+       /*  background: url('.././images/harry-potter-free.jpg');
+        background-size: cover; */
+    }
+
+    .control-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('.././images/harry-potter-free.jpg');
+        background-size: cover;
+        opacity: 0.1;
+        z-index: -1;
+        /* Apply a soft bluish filter */
+        background-color: rgba(0, 0, 255, 0.2);
+    }
+
+    .recomendation-text {
+        font-family: "Roboto", sans-serif;
+        color: black;
+        margin-bottom: 50px;
+    }
+
+    .carousel-main-content {
+        margin: 0px auto;
+        padding: 60px 70px 0px;
+    }
+
+    .slider-image {
+        width: 230px;
+        height: 330px;
+        border-radius: 10px;
+    }
+
+    .cart {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        align-items: center;
+        margin-bottom: 40px;
+    }
+    .details-container{
+        max-width: 350px;
+    }
+
+    .star{
+        width: 20px;
+        height: 20px;
+    }
+    .icon{
+        width: 10px;
+        height: 10px;
+    }
+</style>
