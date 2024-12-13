@@ -13,7 +13,7 @@
                 <div class="col-12">
                     <h3 style="margin-left:15px">Login</h3>
                 </div>
-                <SfDataForm ID="LoginForm" Model="loginEntity" OnSubmit="Submit">
+                <SfDataForm ID="LoginForm" Model="loginEntity" OnValidSubmit="Submit">
                     <FormValidator>
                         <DataAnnotationsValidator></DataAnnotationsValidator>
                     </FormValidator>
@@ -33,7 +33,7 @@
                             </Template>
                         </FormItem>
                         <FormButtons>
-                            <SfButton CssClass="custom-button e-primary" class="w-100" OnClick="Submit">Login</SfButton>
+                            <SfButton CssClass="custom-button e-primary" class="w-100" >Login</SfButton>
                         </FormButtons>
                     </FormItems>
                 </SfDataForm>
