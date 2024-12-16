@@ -30,66 +30,66 @@ builder.Services.AddSyncfusionBlazor();
 
 builder.Services.AddHttpContextAccessor();
 
-//// Configure authentication
-//builder.Services.AddAuthentication(options =>
-//{
-//    // Default scheme for cookie-based custom login
-//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//    // Default challenge scheme for Google login
-//    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-//})
-//.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-//{
-//    options.LoginPath = "/login"; // Redirect to login page for custom login
-//    options.LogoutPath = "/logout"; // Redirect to logout page
-//})
-//.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-//{
-//    // JWT Bearer authentication (if used for custom login tokens)
-//    options.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        ValidateIssuer = true,
-//        ValidateAudience = true,
-//        ValidateLifetime = true,
-//        ValidateIssuerSigningKey = true,
-//        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-//        ValidAudience = builder.Configuration["Jwt:Audience"],
-//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-//    };
-//})
-//.AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
-//{
-//    // Google OAuth 2.0 setup
-//    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-//    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-//    options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-//    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
-//    options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
-//});
-
+// Configure authentication
 builder.Services.AddAuthentication(options =>
 {
+    // Default scheme for cookie-based custom login
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    // Default challenge scheme for Google login
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
 })
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
 {
-    options.LoginPath = "/login";
-    options.LogoutPath = "/logout";
+    options.LoginPath = "/login"; // Redirect to login page for custom login
+    options.LogoutPath = "/logout"; // Redirect to logout page
 })
 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
+    // JWT Bearer authentication (if used for custom login tokens)
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"]//,
-        //ValidAudience = builder.Configuration["Jwt:Audience"],
-        //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
+})
+.AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+{
+    // Google OAuth 2.0 setup
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+    options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
 });
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//})
+//.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+//{
+//    options.LoginPath = "/login";
+//    options.LogoutPath = "/logout";
+//})
+//.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+//{
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuer = true,
+//        ValidateAudience = true,
+//        ValidateLifetime = true,
+//        ValidateIssuerSigningKey = true,
+//        ValidIssuer = builder.Configuration["Jwt:Issuer"]//,
+//        //ValidAudience = builder.Configuration["Jwt:Audience"],
+//        //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+//    };
+//});
 
 
 builder.Services.AddAuthentication(options =>
@@ -102,7 +102,7 @@ builder.Services.AddAuthentication(options =>
 
 
 // Register services
-builder.Services.AddBlazoredSessionStorage();
+//builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();

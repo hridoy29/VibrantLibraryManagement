@@ -8,7 +8,7 @@
 @inject ILogger<Login> Logger
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IServiceProvider _serviceProvider
-@inject ISessionStorageService SessionStorage
+@* @inject ISessionStorageService SessionStorage *@
 @inject CustomAuthenticationStateProvider customAuthenticationStateProvider
 
 <PageTitle>Login</PageTitle>
@@ -181,7 +181,7 @@
             if (result.Status == 200)
             {
                 await StoreToken(result);
-                Navigation.NavigateTo("/test-route", true);
+                Navigation.NavigateTo("/dashboard", true);
             }
             ResponseMessage = "result";
         }

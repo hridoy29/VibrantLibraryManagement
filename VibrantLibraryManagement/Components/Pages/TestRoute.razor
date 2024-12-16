@@ -1,9 +1,24 @@
-﻿@page "/test-route"
+﻿@page "/dashboard"
 @using Microsoft.AspNetCore.Authentication.Cookies
 @using Microsoft.AspNetCore.Authentication.JwtBearer
+@using VibrantLibraryManagement.HelperServices
+@inject CustomAuthenticationStateProvider _customAuth
 
-@attribute [Authorize]
+@* @attribute [Authorize] *@ 
+<div class="text-center">
+    <h3>Dashboard</h3>
+    <p>Welcome to the protected dashboard page.</p>
+</div>
 
-<h3>Dashboard</h3>
-<p>Welcome to the protected dashboard page.</p>
 
+
+@code{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // if (true)
+        // {
+        //     await _customAuth.GetAuthenticationStateAsync();
+        // }
+        
+    }
+}

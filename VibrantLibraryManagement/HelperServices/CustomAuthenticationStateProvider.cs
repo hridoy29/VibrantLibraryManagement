@@ -18,11 +18,11 @@ namespace VibrantLibraryManagement.HelperServices
         private AuthenticationState _authenticatedState;
         private bool _isInitialized;
 
-        public CustomAuthenticationStateProvider(IJSRuntime jsRuntime, IHttpContextAccessor httpContextAccessor, ISessionStorageService sessionStorageService)
+        public CustomAuthenticationStateProvider(IJSRuntime jsRuntime, IHttpContextAccessor httpContextAccessor)
         {
             _jsRuntime = jsRuntime;
             _httpContextAccessor = httpContextAccessor;
-            _sessionStorageService = sessionStorageService;
+            //_sessionStorageService = sessionStorageService;
             _anonymousState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
