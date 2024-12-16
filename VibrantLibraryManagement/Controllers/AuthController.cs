@@ -10,7 +10,7 @@ namespace VibrantLibraryManagement.Controllers
         [HttpGet("login-google")]
         public IActionResult LoginGoogle()
         {
-            var authenticationProperties = new AuthenticationProperties { RedirectUri = "/" };
+            var authenticationProperties = new AuthenticationProperties { RedirectUri = "/google-success" };
             return Challenge(authenticationProperties, GoogleDefaults.AuthenticationScheme);
         }
     }

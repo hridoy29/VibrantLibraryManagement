@@ -18,7 +18,7 @@ namespace VibrantLibraryManagement.ServiceLayer.Services
         private readonly IConfiguration _configuration;
         private readonly string clientId;
 
-        public LoginService(HttpClient httpClient, IConfiguration configuration, IJSRuntime jSRuntime,IServiceProvider serviceProvider)
+        public LoginService(HttpClient httpClient, IConfiguration configuration, IJSRuntime jSRuntime, IServiceProvider serviceProvider)
         {
             _httpClient = httpClient;
             _jSRuntime = jSRuntime;
@@ -26,7 +26,7 @@ namespace VibrantLibraryManagement.ServiceLayer.Services
             clientId = configuration["Api:ClientId"];
         }
 
-        public async Task<bool> Login(LoginEntity loginEntity)
+        public async Task<LoginResponse> Login(LoginEntity loginEntity)
         {
             try
             {
@@ -34,8 +34,12 @@ namespace VibrantLibraryManagement.ServiceLayer.Services
                 var res = await _httpClient.PostAsJsonAsync(loginUrl, loginEntity);
 
                 var loginResponse = await res.Content.ReadFromJsonAsync<LoginResponse>();
-                StoreToken(loginResponse.AccessToken);
-                return true;
+                if (loginResponse.Status==200)
+                {
+                    StoreToken(loginResponse.AccessToken);
+                    return loginResponse;
+                }
+                return loginResponse;
             }
             catch (Exception ex)
             {
@@ -45,9 +49,10 @@ namespace VibrantLibraryManagement.ServiceLayer.Services
         }
 
         public void StoreToken(string token)
-        { // Example using local storage in Blazor
-           var jsRuntime = (IJSRuntime)_serviceProvider.GetService(typeof(IJSRuntime)); 
+        { 
+            var jsRuntime = (IJSRuntime)_serviceProvider.GetService(typeof(IJSRuntime));
             jsRuntime.InvokeVoidAsync("localStorage.setItem", "authToken", token);
 
         }
+    }
 }

@@ -9,6 +9,6 @@ namespace VibrantLibraryManagement.ServiceLayer.Services
 {
     public interface ILoginService
     {
-        public Task<bool> Login(LoginEntity loginEntity);
+        public Task<LoginResponse> Login(LoginEntity loginEntity);
     }
 }

@@ -1,0 +1,29 @@
+﻿@page "/google-success"
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+
+<h3>Google Login Success</h3>
+
+@if (user == null)
+{
+    <p>Loading user information...</p>
+}
+else
+{
+    <p>Welcome, @user.Identity.Name!</p>
+}
+
+@code {
+    private ClaimsPrincipal user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+
+        if (user.Identity == null || !user.Identity.IsAuthenticated)
+        {
+            Navigation.NavigateTo("/login");
+        }
+    }
+}
