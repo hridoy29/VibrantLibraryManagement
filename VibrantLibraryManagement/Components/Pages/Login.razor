@@ -19,8 +19,50 @@
                 <div class="col-12">
                     <h4 style="margin:17px 0px 0px 0px; font-family: roboto;">Log in</h4>
                 </div>
-                <SfDataForm ID="LoginForm"
-                            Model="loginEntity" OnValidSubmit="Submit">
+                @* <SfDataForm ID="LoginForm"
+                Model="loginEntity" OnValidSubmit="Submit">
+                <FormValidator>
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                </FormValidator>
+                <FormItems>
+                <FormItem Field="@nameof(loginEntity.Email)">
+                <Template>
+                <div class="email">
+                <SfTextBox CssClass="email-field custom-textbox" @ref="TextBoxEmailObj" Type="InputType.Email" Placeholder="Email address" Created="@AddIcons"
+                @oninput="OnEmailChanged"
+                ></SfTextBox>
+                </div>
+                </Template>
+                </FormItem>
+                <FormItem Field="@nameof(loginEntity.Password)">
+                <Template>
+                <div class="password">
+                <SfTextBox CssClass="custom-textbox PasswordIconClass" @ref="TextBoxPasswordObj" Type="InputType.Password" Placeholder="Password" Created="@AddIconsForPasswrd"
+                @oninput="OnPasswordChanged"
+                ></SfTextBox>
+                <button @onclick="TogglePasswordVisibility" class="password-toggle-button">
+                <SfIcon Name="IconName.Eye"></SfIcon>
+                </button>
+                </div>
+                </Template>
+                </FormItem>
+                <FormButtons>
+                <div style="display: flex; flex-direction: column; width: 100%; gap: 20px;">
+                <div class="remember-me">
+                <SfCheckBox Label="Remember me" @bind-Checked="isChecked"></SfCheckBox>
+                </div>
+                <SfButton CssClass="custom-button e-primary login-button"
+                style="border-radius: 10px;
+                margin-bottom: 10px; background: gray;"
+                class="w-100"
+                Disabled=@isButtonDisabled
+                >Log in</SfButton>
+                </div>
+                </FormButtons>
+                </FormItems>
+                </SfDataForm> *@
+
+                <SfDataForm ID="LoginForm" Model="loginEntity" OnValidSubmit="Submit">
                     <FormValidator>
                         <DataAnnotationsValidator></DataAnnotationsValidator>
                     </FormValidator>
@@ -28,17 +70,14 @@
                         <FormItem Field="@nameof(loginEntity.Email)">
                             <Template>
                                 <div class="email">
-                                    <SfTextBox CssClass="email-field custom-textbox" @ref="TextBoxEmailObj" Type="InputType.Email" Placeholder="Email address" Created="@AddIcons" @oninput="OnEmailChanged"></SfTextBox>
+                                    <SfTextBox CssClass="custom-textbox" @ref="@TextBoxEmailObj" @bind-Value="loginEntity.Email" Type="InputType.Email" Placeholder="Email address" Created="@AddIcons" @oninput="OnEmailChanged"></SfTextBox>
                                 </div>
                             </Template>
                         </FormItem>
                         <FormItem Field="@nameof(loginEntity.Password)">
                             <Template>
                                 <div class="password">
-                                    <SfTextBox CssClass="custom-textbox PasswordIconClass" @ref="TextBoxPasswordObj" Type="InputType.Password" Placeholder="Password" Created="@AddIconsForPasswrd" @oninput="OnPasswordChanged"></SfTextBox>
-                                    <button @onclick="TogglePasswordVisibility" class="password-toggle-button">
-                                        <SfIcon Name="IconName.Eye"></SfIcon>
-                                    </button>
+                                    <SfTextBox CssClass="custom-textbox" @ref="@TextBoxPasswordObj" @bind-Value="loginEntity.Password" Type="InputType.Password" Placeholder="Password" Created="@AddIconsForPasswrd" @oninput="OnPasswordChanged"></SfTextBox>
                                 </div>
                             </Template>
                         </FormItem>
@@ -49,13 +88,16 @@
                                 </div>
                                 <SfButton CssClass="custom-button e-primary login-button"
                                           style="border-radius: 10px;
-                                    margin-bottom: 10px; background: gray;"
+                margin-bottom: 10px; background: gray;"
                                           class="w-100"
                                           Disabled=@isButtonDisabled>Log in</SfButton>
                             </div>
                         </FormButtons>
                     </FormItems>
                 </SfDataForm>
+
+
+
                 <div class="col-12 mt-2">
                     <p class="custom-p" style="font-size: 13px;">Forget Password?</p>
                 </div>
@@ -96,7 +138,7 @@
     SfTextBox TextBoxPasswordObj;
 
     public string ResponseMessage { get; set; } = string.Empty;
-    private LoginEntity loginEntity = new();
+    private LoginEntity loginEntity = new LoginEntity();
 
     private bool isChecked = false;
     public bool isButtonDisabled { get; set; } = true;
@@ -113,6 +155,11 @@
     {
         isButtonDisabled = false;
         StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    { 
+        loginEntity = new LoginEntity();
     }
 
     private async Task Submit()
@@ -143,18 +190,18 @@
     private async Task GoogleLogin()
     {
 
-        Navigation.NavigateTo("auth/login-google", forceLoad: true);
-        try
-        {
-            // Challenge authentication before response is processed
-            var authenticationProperties = new AuthenticationProperties { RedirectUri = "/" };
-            // Use this method in the right time in the pipeline:
-            await HttpContextAccessor.HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, authenticationProperties);
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError("Error during Google login: {Message}", ex.Message);
-        }
+        // Navigation.NavigateTo("auth/login-google", forceLoad: true);
+        // try
+        // {
+        //     // Challenge authentication before response is processed
+        //     var authenticationProperties = new AuthenticationProperties { RedirectUri = "/" };
+        //     // Use this method in the right time in the pipeline:
+        //     await HttpContextAccessor.HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, authenticationProperties);
+        // }
+        // catch (Exception ex)
+        // {
+        //     Logger.LogError("Error during Google login: {Message}", ex.Message);
+        // }
     }
 
     // Language Dropdown
@@ -236,7 +283,7 @@
     .custom-container {
         display: flex;
         align-items: center;
-        /* justify-content: center; */
+        justify-content: center; 
         flex-direction: column;
         height: 100%;
         padding: 20px 50px 0px 50px;
@@ -252,9 +299,9 @@
         border-radius: 10px !important;
     }
 
-    .custom-textbox:focus {
-        border-bottom: none !important; /* Remove underline */
-    }
+        .custom-textbox:focus {
+            border-bottom: none !important; /* Remove underline */
+        }
 
     .e-control:focus {
         border-color: #007bff; /* Change border color */
@@ -335,14 +382,13 @@
         cursor: pointer;
     }
 
-    .password-toggle-button i {
-        font-size: 20px;
-    }
+        .password-toggle-button i {
+            font-size: 20px;
+        }
 
-    .e-input-focus{
+    .e-input-focus {
         border-bottom: none;
         color: red;
-
     }
 
 </style>
