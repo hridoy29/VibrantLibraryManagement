@@ -1,0 +1,25 @@
+﻿@page "/"
+@inject NavigationManager _navigate
+@inject AuthenticationStateProvider _authenticationStateProvider
+
+<PageTitle>VibrantLibraryManagement</PageTitle>
+
+<h1>Loading...</h1>
+
+@code{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            if (!authState.User.Identity.IsAuthenticated)
+            {
+                _navigate.NavigateTo("/login");
+            }
+            else
+            {
+                _navigate.NavigateTo("/dashboard");
+            }
+        }
+    }
+}

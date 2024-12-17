@@ -1,0 +1,205 @@
+﻿.tree-img {
+    height: 100vh;
+    width: 100%;
+    object-fit: cover;
+}
+
+.custom-div-width {
+    overflow-x: hidden;
+}
+
+.email .e-input-group.e-control-wrapper .e-input-group-icon {
+    content: url('/images/mail.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: inline-block !important;
+    margin-right: 15px;
+}
+
+.e-open-icon::after {
+    content: url('/images/google.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: inline-block !important;
+}
+
+.e-open-icon-apple::after {
+    content: url('/images/apple-logo.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: inline-block !important;
+}
+
+.password .e-input-group.e-control-wrapper .e-input-group-icon {
+    content: url('/images/padlock.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: inline-block !important;
+    margin-right: 15px;
+}
+
+.custom-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px 50px 0px 50px;
+}
+
+.left-column {
+    box-shadow: 5px 0 15px -5px #adadad;
+}
+
+.custom-textbox {
+    padding: 10px;
+    border: 1px solid gray !important;
+    border-radius: 10px !important;
+}
+
+    .custom-textbox:focus {
+        border-bottom: none !important; /* Remove underline */
+    }
+
+.e-control:focus {
+    border-color: #007bff; /* Change border color */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add box shadow */
+}
+
+.email .e-input-group.e-control-wrapper:not(.e-disabled) .e-input-group-icon:hover {
+    color: transparent !important;
+    background: none !important;
+}
+
+.password .e-input-group.e-control-wrapper:not(.e-disabled) .e-input-group-icon:hover {
+    color: transparent !important;
+    background: none !important;
+}
+
+.custom-button {
+    background-color: @(isButtonDisabled ? "gray" : "#30cc7d") !important;
+    color: black !important;
+    padding: 10px;
+    border-radius: 10px
+}
+
+.custom-p {
+    text-decoration: underline;
+    cursor: pointer;
+    margin: 0px;
+}
+
+.custom-google-button {
+    background-color: white !important;
+    color: black !important;
+    padding: 10px;
+    border-radius: 10px
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+    .remember-me p {
+        margin-bottom: 0px;
+    }
+
+.login-button {
+    width: 400px;
+}
+
+.privacy-policy {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 0px;
+    font-size: 12px;
+    align-items: center;
+}
+
+/* dropdown styles */
+.e-ddl.e-input-group input.e-input::placeholder {
+    color: black;
+}
+
+/* Add eye icon to password field */
+.password {
+    position: relative;
+}
+
+.password-toggle-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+    .password-toggle-button i {
+        font-size: 20px;
+    }
+
+.e-input-focus {
+    border-bottom: none;
+    color: red;
+}
+
+.e-input-group:not(.e-float-icon-left):not(.e-float-input)::before, .e-input-group:not(.e-float-icon-left):not(.e-float-input)::after, .e-input-group.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::before, .e-input-group.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::after, .e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::before, .e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::after, .e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::before, .e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::after, .e-float-input.e-input-group:not(.e-float-icon-left) .e-float-line::before, .e-float-input.e-input-group:not(.e-float-icon-left) .e-float-line::after, .e-float-input.e-input-group.e-float-icon-left .e-input-in-wrap .e-float-line::before, .e-float-input.e-input-group.e-float-icon-left .e-input-in-wrap .e-float-line::after, .e-float-input.e-control-wrapper.e-input-group:not(.e-float-icon-left) .e-float-line::before, .e-float-input.e-control-wrapper.e-input-group:not(.e-float-icon-left) .e-float-line::after, .e-float-input.e-control-wrapper.e-input-group.e-float-icon-left .e-input-in-wrap .e-float-line::before, .e-float-input.e-control-wrapper.e-input-group.e-float-icon-left .e-input-in-wrap .e-float-line::after, .e-filled.e-input-group.e-float-icon-left:not(.e-float-input)::before, .e-filled.e-input-group.e-float-icon-left:not(.e-float-input)::after, .e-filled.e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input)::before, .e-filled.e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input)::after, .e-filled.e-float-input.e-input-group.e-float-icon-left .e-float-line::before, .e-filled.e-float-input.e-input-group.e-float-icon-left .e-float-line::after, .e-filled.e-float-input.e-control-wrapper.e-input-group.e-float-icon-left .e-float-line::before, .e-filled.e-float-input.e-control-wrapper.e-input-group.e-float-icon-left .e-float-line::after {
+    background: none !important;
+}
+
+@media (max-width: 1200px) {
+    .hide-on-mobile {
+        display: none;
+    }
+
+    .custom-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100%;
+        padding: 20px 28px 0px 28px;
+    }
+
+    .left-column {
+        box-shadow: 5px 0 15px -5px #adadad;
+        position: absolute;
+        background: white;
+        /* opacity: 0.5; */
+        background: hsla(0, 0%, 100%, .95);
+        border-radius: 10px;
+        left: 50%;
+        padding: 10px;
+        position: absolute;
+        top: 1;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 30rem;
+        z-index: 1;
+    }
+
+    .right-column {
+        width: 100%
+    }
+
+    .logo-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

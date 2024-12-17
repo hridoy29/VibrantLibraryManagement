@@ -1,0 +1,39 @@
+﻿@page "/dashboard"
+@inject NavigationManager _navigate
+@inject AuthenticationStateProvider _authenticationStateProvider
+@using VibrantLibraryManagementV2.HelperServices
+@inject CustomAuthenticationStateProvider _customAuthProvider
+
+<AuthorizeView>
+    <Authorized>
+        <h3>Dashboard</h3>
+        <button @onclick="LogOut">Log Out</button>
+    </Authorized>
+    <NotAuthorized>
+        <h3>Not Authorized to view this</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            if (!authState.User.Identity.IsAuthenticated)
+            {
+                _navigate.NavigateTo("/login");
+            }
+            else
+            {
+                _navigate.NavigateTo("/dashboard");
+            }
+        }
+    }
+
+    private async Task LogOut()
+    {
+        await _customAuthProvider.LogoutAsync();
+        _navigate.NavigateTo("/login");
+    }
+}

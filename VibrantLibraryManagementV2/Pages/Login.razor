@@ -1,0 +1,206 @@
+﻿@page "/login"
+@using VibrantLibraryManagementV2.HelperServices
+@inject ILoginService LoginService;
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IAuthenticationService AuthenticationService
+@inject ILogger<Login> Logger
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IServiceProvider _serviceProvider
+@* @inject ISessionStorageService SessionStorage *@
+@inject CustomAuthenticationStateProvider customAuthenticationStateProvider
+@inject IStringLocalizer<App> localizer
+
+<PageTitle>Login</PageTitle>
+
+
+<head>
+    <link rel="stylesheet" href="css/login.css"/>
+</head>
+
+<div class="w-100 custom-div-width" >
+    <div class="row p-0">
+        <div class="col-12 col-md-4 left-column">
+            <div class="container custom-container">
+                <div class="col-12 logo-image">
+                    <img src="/images/vibrantlogobgremove.png" class="img-fluid" />
+                  
+                </div>
+                <div class="col-12 text-center text-md-start">
+                    <h4 style="margin:17px 0px 0px 0px; font-family: roboto;">@localizer["Log in"]</h4>
+                </div>
+
+                <SfDataForm ID="LoginForm" Model="loginEntity" OnValidSubmit="Submit">
+                    <FormValidator>
+                        <DataAnnotationsValidator></DataAnnotationsValidator>
+                    </FormValidator>
+                    <FormItems>
+                        <FormItem Field="@nameof(loginEntity.Email)">
+                            <Template>
+                                <div class="email">
+                                    <SfTextBox CssClass="custom-textbox" @ref="@TextBoxEmailObj" @bind-Value="loginEntity.Email" Type="InputType.Email" Placeholder="@localizer["Email address"]" Created="@AddIcons" @oninput="OnEmailChanged"></SfTextBox>
+                                </div>
+                            </Template>
+                        </FormItem>
+                        <FormItem Field="@nameof(loginEntity.Password)">
+                            <Template>
+                                <div class="password">
+                                    <SfTextBox CssClass="custom-textbox" @ref="@TextBoxPasswordObj" @bind-Value="loginEntity.Password" Type="InputType.Password" Placeholder="@localizer["Password"]" Created="@AddIconsForPasswrd" @oninput="OnPasswordChanged"></SfTextBox>
+                                </div>
+                            </Template>
+                        </FormItem>
+                        <FormButtons>
+                            <div style="display: flex; flex-direction: column; width: 100%; gap: 20px;">
+                                <div class="remember-me">
+                                    <SfCheckBox Label="@localizer["Remember me"]" @bind-Checked="isChecked"></SfCheckBox>
+                                </div>
+                                <SfButton CssClass="custom-button e-primary login-button"
+                                          style="border-radius: 10px;
+                margin-bottom: 10px; background: gray;"
+                                          class="w-100"
+                                          Disabled=@isButtonDisabled>@localizer["Log in"]</SfButton>
+                            </div>
+                        </FormButtons>
+                    </FormItems>
+                </SfDataForm>
+
+
+
+                <div class="col-12 mt-2">
+                    <p class="custom-p" style="font-size: 13px;">@localizer["Forget Password"]?</p>
+                </div>
+                <div class="col-12 mt-2">
+                    <div class="d-flex g-3" style="font-size: 13px;"> <span class="text-muted">@localizer["Don't have an account"]?</span> <p class="custom-p ms-1">@localizer["Create account"]</p></div>
+                </div>
+                <div class="col-12 mt-2">
+                    <Divider />
+                </div>
+                <div class="col-12 mt-2">
+                    <SfButton CssClass="custom-google-button w-100" IsPrimary="true" IconCss="e-open-icon" IconPosition="@IconPosition.Left" @onclick="GoogleLogin">@localizer["continue with google"]</SfButton>
+                </div>
+                @* <div class="col-12 mt-3">
+                <SfButton CssClass="custom-google-button w-100" IsPrimary="true" IconCss="e-open-icon-apple" IconPosition="@IconPosition.Left">Continue with Apple ID</SfButton>
+                </div> *@
+                <div class="privacy-policy">
+                    <p style="margin-bottom: 0px;"><span style="text-decoration: underline;">@localizer["Privacy"]</span> @localizer["and"] <span style="text-decoration: underline;">@localizer["terms of service"]</span></p>
+                    <div style="width: 100px;">
+                        @* <SfDropDownList TValue="string" TItem="Language" PopupHeight="350px" PopupWidth="350px" Placeholder="En-us" DataSource="@LocalData">
+                            <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
+                        </SfDropDownList> *@
+                        <ChooseLanguage/>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="col-12 col-md-8 m-0 p-0 right-column">
+            <img src="/images/bookstreehq.jpg" class="tree-img" />
+        </div>
+        
+    </div>
+
+</div>
+
+@code {
+    SfTextBox TextBoxEmailObj;
+    SfTextBox TextBoxPasswordObj;
+
+    public string ResponseMessage { get; set; } = string.Empty;
+    private LoginEntity loginEntity = new LoginEntity();
+
+    private bool isChecked = false;
+    public bool isButtonDisabled { get; set; } = true;
+
+    private void OnEmailChanged()
+    {
+        string email = TextBoxEmailObj.Value;
+        isButtonDisabled = false;
+        StateHasChanged();
+    }
+
+
+    private void OnPasswordChanged()
+    {
+        isButtonDisabled = false;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        loginEntity = new LoginEntity();
+    }
+
+    private async Task Submit()
+    {
+        try
+        {
+            var result = await LoginService.Login(loginEntity);
+
+            if (result.Status == 200)
+            {
+                await StoreToken(result);
+                Navigation.NavigateTo("/dashboard", true);
+            }
+            ResponseMessage = "result";
+        }
+        catch (Exception ex)
+        {
+            ResponseMessage = $"An error occurred: {ex.Message}";
+        }
+    }
+
+    public async Task StoreToken(LoginResponse authResponse)
+    {
+        // await SessionStorage.SetItemAsync("vibrant-token", authResponse.AccessToken);
+        await customAuthenticationStateProvider.SetAuthenticationStateAsync(authResponse.AccessToken);
+
+    }
+
+    public async Task AddIcons()
+    {
+        await this.TextBoxEmailObj.AddIconAsync("prepend", "e-icons");
+    }
+
+    public async Task AddIconsForPasswrd()
+    {
+        await this.TextBoxPasswordObj.AddIconAsync("prepend", "e-icons");
+    }
+
+    // Trigger Google Authentication
+    private async Task GoogleLogin()
+    {
+        Navigation.NavigateTo("auth/login-google", forceLoad: true);
+    }
+
+    // Language Dropdown
+    public class Language
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+
+    List<Language> LocalData = new List<Language> {
+        new Language() { ID= "en", Text= "American English" },
+        new Language() { ID= "bn", Text= "Bangali" }
+    };
+
+    // Adding Eye Icon
+    private string PasswordIconClass { get; set; } = "e-icons e-password-show";
+
+    private void TogglePasswordVisibility()
+    {
+        if (TextBoxPasswordObj.Type == InputType.Password)
+        {
+            TextBoxPasswordObj.Type = InputType.Text;
+            PasswordIconClass = "e-icons e-password-hide";
+        }
+        else
+        {
+            TextBoxPasswordObj.Type = InputType.Password;
+            PasswordIconClass = "e-icons e-password-show";
+        }
+    }
+
+}

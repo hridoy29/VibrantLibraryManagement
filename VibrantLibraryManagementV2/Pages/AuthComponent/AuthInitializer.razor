@@ -1,0 +1,13 @@
+﻿@using VibrantLibraryManagementV2.HelperServices
+@inject CustomAuthenticationStateProvider CustomAuthStateProvider
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CustomAuthStateProvider.InitializeAuthenticationStateAsync();
+            StateHasChanged();
+        }
+    }
+}

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\VibrantLibraryManagementV2.Core\VibrantLibraryManagementV2.Core.csproj" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.1" />
+		<PackageReference Include="Microsoft.JSInterop" Version="6.0.36" />
+	</ItemGroup>
+
+</Project>

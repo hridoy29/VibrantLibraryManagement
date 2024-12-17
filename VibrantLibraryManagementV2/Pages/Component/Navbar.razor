@@ -1,0 +1,57 @@
+﻿<div class="navbar-custom">
+    <img src=".././images/VibrantLogoBgRemove.png" class="logo" />
+    <ul style="display: flex; flex-direction: row; gap: 10px; list-style: none; align-items: center; padding: 0px; margin: 0px;">
+        <li>Home</li>
+        <li>About Us</li>
+        <li>Contact Us</li>
+        <li>
+            <SfDropDownList TValue="string" TItem="Games" Placeholder="Us-en" DataSource="@LocalData">
+                <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
+            </SfDropDownList>
+        </li>
+    </ul>
+</div>
+
+@code {
+    public class Games
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+    List<Games> LocalData = new List<Games> {
+    new Games() { ID= "Game1", Text= "American Football" },
+    new Games() { ID= "Game2", Text= "Badminton" },
+    new Games() { ID= "Game3", Text= "Basketball" },
+    new Games() { ID= "Game4", Text= "Cricket" },
+    new Games() { ID= "Game5", Text= "Football" },
+    new Games() { ID= "Game6", Text= "Golf" },
+    new Games() { ID= "Game7", Text= "Hockey" },
+    new Games() { ID= "Game8", Text= "Rugby"},
+    new Games() { ID= "Game9", Text= "Snooker" },
+    new Games() { ID= "Game10", Text= "Tennis"},
+  };
+}
+
+<style>
+    .navbar-custom {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0px;
+        padding: 20px 120px;
+        border-bottom: .5px solid rgba(0, 0, 0, .2);
+    }
+
+    .logo {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    @@media only screen and (max-width: 760px){
+        .navbar-custom {
+            flex-direction: column;
+        }
+    }
+</style>

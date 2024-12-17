@@ -1,0 +1,43 @@
+﻿@inject NavigationManager _navigate
+@inject IConfiguration _configuration
+
+@{
+    if (cultures != null)
+    {
+        <form class="form-control">
+            <select class="form-control" @bind="selectedCulture">
+                <option >Select language</option>
+                @foreach (var item in cultures)
+                {
+                    <option value="@item.Key">@item.Value</option>
+                }
+            </select>
+            <button class="btn" @onclick="RequestCultureChange">Change</button>
+        </form>
+    }
+}
+
+@code {
+    private string selectedCulture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+    private Dictionary<string, string> cultures;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cultures = _configuration.GetSection("Cultures")
+                        .GetChildren().ToDictionary(x => x.Key, x => x.Value);
+    }
+
+    private void RequestCultureChange()
+    {
+        if (string.IsNullOrWhiteSpace(selectedCulture))
+        {
+            return;
+        }
+        var uri = new Uri(_navigate.Uri)
+                .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+        var query = $"?culture={Uri.EscapeDataString(selectedCulture)}&" +
+            $"redirectUri={Uri.EscapeDataString(uri)}";
+
+        _navigate.NavigateTo("/Culture/SetCulture" + query, forceLoad: true);
+    }
+}
